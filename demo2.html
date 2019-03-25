@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Login</title>
+		<link href="css/lib/bootstrap.min.css" rel="stylesheet">
+		<link href="css/linkassets.css" rel="stylesheet">
+	</head>
+<body style="background-color:#b5c35f;">
+<div style="background-color:blue;">>hello
+</div>
+</body>
+</html>
+var exec = require('child_process').exec;
+exec('node -vd', function(error, stdout, stderr) {
+  console.log('stdout: ' + stdout);
+  console.log('stderr: ' + stderr);
+  if (error !== null) {
+    console.log('exec error: ' + error);
+}
+});
+
+var fs = require("fs");
+
+fs.readFile("as.text", "utf8", function(err, data) {
+  console.log(data);
+});

@@ -1,0 +1,106 @@
+<!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+<div id="app"></div>
+<input type="text" id="inputBox" />
+<span id="showMessage" style="display:none;color:red">Please enter valid username</span>
+<!-- <script type="text/javascript" src="index.js"></script> -->
+<button type="button" onclick="check()">Submit Button</button>
+<div id="result"></div>
+
+<script>
+
+  document.onreadystatechange =function(){
+    apiCall();
+  }
+  function check() {
+    document.getElementById("showMessage").style.display="none";
+    var inputValue = document.getElementById("inputBox");
+    var name = new RegExp(/[a-z]{5,9}/);
+    var goodName = name.test(inputValue.value);
+    console.log(inputValue.value);
+    if(!goodName) {
+     document.getElementById("showMessage").style.display="block";
+      document.getElementById("result").innerHTML = null; 
+    }
+  }
+
+  function apiCall() {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      // console.log(xhr.responseText, this.readyState, this.status );
+      if (this.readyState === 4 && this.status === 200) {
+        // console.log(xhr.responseText);
+        // document.getElementById("result").innerHTML = xhr.responseText;
+        addTable(xhr.responseText);
+      }
+    };
+    xhr.open("GET", "http://dummy.restapiexample.com/api/v1/employees", true);
+    xhr.send();
+  }
+  function addTable(data1) {
+    // console.log(data);
+    var data = JSON.parse(data1);
+    var myTableDiv = document.getElementById("result");
+
+    var table = document.createElement("TABLE");
+    table.setAttribute('id', 'empTable');        
+    table.border = "1";
+
+    var tableHead = document.createElement("THEAD");
+    table.appendChild(tableHead);
+
+    var tableBody = document.createElement("TBODY");
+    table.appendChild(tableBody);
+
+    data.forEach((k, v) => {
+      var tr = document.createElement("TR");
+      tableBody.appendChild(tr);
+
+      var x = Object.keys(k);
+      x.forEach((xx, vv) => {
+        // console.log(k, v, xx, vv);
+        var td = document.createElement("TD");
+        td.width = "75";
+        td.appendChild(document.createTextNode(data[v][xx]));
+        tr.appendChild(td);
+      });
+      var td = document.createElement("TD"); // Create a <button> element
+
+      var btn = document.createElement("BUTTON");
+      btn.innerHTML = "ADD";
+      btn.setAttribute('type', 'button');
+      btn.setAttribute('value', 'ADD')
+      btn.setAttribute('onclick', 'add(this)') // Insert text
+
+      var btn2 = document.createElement("BUTTON");
+      btn2.innerHTML = "DELETE"; // Insert text
+      btn2.setAttribute('type', 'button');
+      btn2.setAttribute('value', 'DELETE')
+      btn2.setAttribute('onclick', 'removeRow(this)') // Insert text
+
+      td.appendChild(btn); td.appendChild(btn2);
+      tr.appendChild(td);
+    });
+
+    var arrHead = ["id", "employee_name", "age", "rollno"];
+    for (var h = 0; h < arrHead.length; h++) {
+      var th = document.createElement("th"); // TABLE HEADER.
+      th.innerHTML = arrHead[h];
+      // tr.appendChild(th);
+      tableHead.appendChild(th);
+    }
+    myTableDiv.appendChild(table);
+  }
+
+
+function removeRow(data) {
+console.log(data.parentNode.parentNode.rowIndex);
+document.getElementById("empTable").deleteRow(data.parentNode.parentNode.rowIndex);
+}
+
+function add (add) {
+
+}
+
+
+  
+</script>
